@@ -1,5 +1,6 @@
 from sklearn import linear_model
 from sklearn.model_selection import KFold
+import csv
 
 # TODO: Documentation on what is done
 
