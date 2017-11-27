@@ -40,7 +40,7 @@ def run(train_bunch):
   # Save results to k_fold_validation.csv file
   with open("k_fold_validation.csv", "w") as f:
       writer = csv.writer(f)
-      writer.writerows(y_pred)
+      writer.writerows(csv_file)
 
   print('Results saved to k_fold_validation.csv file')
   return
