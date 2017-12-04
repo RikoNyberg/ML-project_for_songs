@@ -26,11 +26,12 @@ def main():
   test_set = import_data.run(TEST_DATA, 0)
   print('Data imported')
 
+  print('Doing K-fold validation for the Logistic Regression model:')
+  k_fold.run(training_set, test_set)
+
   print('Doing Logistic Regression for the training data and label prediction for the test data:')
   log_loss_regression_for_data.run(training_set, test_set)
 
-  print('Doing K-fold validation for the Logistic Regression model:')
-  training_set, test_set = k_fold.run(training_set)
   return
 
 if __name__ == "__main__":
