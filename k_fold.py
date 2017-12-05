@@ -14,16 +14,18 @@ def save_k_fold_results_to_CSV(csv_file):
         csv_file, columns=['Training or Validation data', 'Accuracity', 'Sample size', 'Wrong labels', 'Used samples(test set)'])
     csv_file.to_csv('predictions/k_fold_validation.csv',
                             index=False, header=True, sep=',')
+    print('\n####################################')
     print('K-fold results saved to predictions/k_fold_validation.csv file')
+    print('####################################\n')
 
 def plot_confusion_matrix(clf, X_best_test, y_best_test, matrix_name):
     # Doing the confusion matrix for the best K-validated training set
     y_best_pred = clf.predict(X_best_test)
     confusion_matrix = ConfusionMatrix(y_best_test, y_best_pred)
-    print("Confusion matrix for the best K-fold validated training set:\n{}".format(confusion_matrix))
+    #print("Confusion matrix for the best K-fold validated training set:\n{}".format(confusion_matrix))
     confusion_matrix.plot(normalized=True)
     plt.savefig('confusion_matrixes/K-fold_matrix_{}.png'.format(matrix_name))
-    print('Saved Confusion matrix to confusion_matrixes/K-fold_matrix_{}.png'.format(matrix_name))
+    print('Saved Confusion matrix of the previous test to confusion_matrixes/K-fold_matrix_{}.png\n'.format(matrix_name))
 
 def run(train_bunch, test_bunch):
     print('Running K-fold...')

@@ -17,7 +17,7 @@ def run(train_bunch, test_bunch):
     y_pred = clf.predict(X_test)
     pred = clf.predict_proba(X_test)
 
-    print('####################################')
+    print('\n####################################')
     # Adding the count numbers to the label list
     y_pred = [list(range(1, len(y_pred) + 1)), y_pred]
     y_pred_transpose = np.transpose(np.array(y_pred))
@@ -35,6 +35,6 @@ def run(train_bunch, test_bunch):
                 index=True, header=True, sep=',')
 
     print('predicted_labels.csv and predicted_probabilities.csv have been added to predictions-folder')
-    print('####################################')
+    print('####################################\n')
 
     return
