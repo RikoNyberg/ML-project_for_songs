@@ -1,6 +1,5 @@
 from sklearn import linear_model
-import csv
-
+import pandas as pd
 import numpy as np
 
 # TODO: Documentation on what is done
@@ -22,14 +21,18 @@ def run(train_bunch, test_bunch):
     # Adding the count numbers to the label list
     y_pred = [list(range(1, len(y_pred) + 1)), y_pred]
     y_pred_transpose = np.transpose(np.array(y_pred))
+    
+    y_pred_transpose = pd.DataFrame(
+        y_pred_transpose, columns=['Sample_id', 'Sample_label'])
+    y_pred_transpose.to_csv('predictions/predicted_labels.csv',
+                  index=False, header=True, sep=',')
 
-    with open("predictions/predicted_labels.csv", "w") as f:
-        writer = csv.writer(f)
-        writer.writerows(y_pred_transpose)
-
-    with open("predictions/predicted_probabilities.csv", "w") as f:
-        writer = csv.writer(f)
-        writer.writerows(pred)
+    pred = pd.DataFrame(pred, columns=[
+                          'Class_1', 'Class_2', 'Class_3', 'Class_4', 'Class_5', 'Class_6', 'Class_7', 'Class_8', 'Class_9', 'Class_10'])
+    pred.index = pred.index + 1
+    pred.index.name = 'Sample_id'
+    pred.to_csv('predictions/predicted_probabilities.csv',
+                index=True, header=True, sep=',')
 
     print('predicted_labels.csv and predicted_probabilities.csv have been added to predictions-folder')
     print('####################################')
