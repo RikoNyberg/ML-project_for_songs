@@ -34,8 +34,7 @@ def run(train_bunch, test_bunch):
     kf = KFold(n_splits=5, shuffle=True)
     kf.get_n_splits(X)
 
-    csv_file = [['Training or Validation data', 'Accuracity',
-                 'Sample size', 'Wrong labels', 'Used samples (test set)']]
+    csv_file = []
     best_accuracy = 0
     matrix_name = 1
     for train_index, test_index in kf.split(X):
