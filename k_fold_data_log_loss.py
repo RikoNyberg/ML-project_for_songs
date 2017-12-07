@@ -18,17 +18,17 @@ def run(clf, test_bunch):
 
   y_pred_transpose = pd.DataFrame(
       y_pred_transpose, columns=['Sample_id', 'Sample_label'])
-  y_pred_transpose.to_csv('predictions/k_fold_predicted_labels.csv',
+  y_pred_transpose.to_csv('predictions/best_k_fold_predicted_labels.csv',
                           index=False, header=True, sep=',')
 
   pred = pd.DataFrame(pred, columns=[
       'Class_1', 'Class_2', 'Class_3', 'Class_4', 'Class_5', 'Class_6', 'Class_7', 'Class_8', 'Class_9', 'Class_10'])
   pred.index = pred.index + 1
   pred.index.name = 'Sample_id'
-  pred.to_csv('predictions/k_fold_predicted_probabilities.csv',
+  pred.to_csv('predictions/best_k_fold_predicted_probabilities.csv',
               index=True, header=True, sep=',')
   
-  print('k_fold_predicted_labels.csv and k_fold_predicted_probabilities.csv have been added to predictions-folder')
+  print('best_k_fold_predicted_labels.csv and best_k_fold_predicted_probabilities.csv have been added to predictions-folder')
   print('####################################\n')
 
   return 

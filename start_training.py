@@ -5,12 +5,10 @@ import feature_reduction
 
 import numpy as np
 import pandas as pd
-#import tensorflow as tf
 
 # Data sets
 TRAINING_DATA = "data/train_data.csv"
 TRAINING_LABELS = "data/train_labels.csv"
-#TRAINING_DATA_labelled = 'data/train_data_labeled.csv'
 TEST_DATA = "data/test_data.csv"
 
 
@@ -38,16 +36,7 @@ def main():
             useful_features, TEST_DATA, TEST_DATA_REDUCED)
         test_data_csv = TEST_DATA_REDUCED
     
-    # Load datasets as Bunch.
-    # Two ways of downloading the training_set:
-    # 1. With tensorflow function:
-    # training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
-    #     filename=TRAINING_DATA_labelled,
-    #     target_dtype=np.int,
-    #     features_dtype=np.float32)
-    # 2. Self made function without the labels in the same file:
     training_set = import_data.run(train_data_csv, TRAINING_LABELS)
-
     test_set = import_data.run(test_data_csv, 0)
     print('Data imported')
 
