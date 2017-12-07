@@ -23,9 +23,9 @@ def main():
     test_data_csv = TEST_DATA
 
     # Feature reduction
-    useful_features = feature_reduction.run(TRAINING_DATA)
+    useful_features, count_of_orig_columns = feature_reduction.run(TRAINING_DATA)
     
-    if len(useful_features) > 0:
+    if len(useful_features) > count_of_orig_columns:
         TRAIN_DATA_REDUCED = "data/train_data_reduced_features.csv"
         create_new_csv_with_useful_features(
             useful_features, TRAINING_DATA, TRAIN_DATA_REDUCED)
