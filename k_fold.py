@@ -22,10 +22,12 @@ def plot_confusion_matrix(clf, X_best_test, y_best_test, matrix_name):
     # Doing the confusion matrix for the best K-validated training set
     y_best_pred = clf.predict(X_best_test)
     confusion_matrix = ConfusionMatrix(y_best_test, y_best_pred)
-    #print("Confusion matrix for the best K-fold validated training set:\n{}".format(confusion_matrix))
+    #print("Confusion matrix:\n{}".format(confusion_matrix))
     confusion_matrix.plot(normalized=True)
     plt.savefig('confusion_matrixes/K-fold_matrix_{}.png'.format(matrix_name))
     print('Saved Confusion matrix of the previous test to confusion_matrixes/K-fold_matrix_{}.png\n'.format(matrix_name))
+
+    return confusion_matrix
 
 def run(train_bunch, test_bunch):
     print('Running K-fold...')
@@ -80,8 +82,9 @@ def run(train_bunch, test_bunch):
     clf = linear_model.LogisticRegression()
     clf.fit(X_best_train, y_best_train)
     matrix_name = 'best_accuracity_({})'.format(best_accuracy)
-    plot_confusion_matrix(clf, X_best_test, y_best_test, matrix_name)
+    confusion_matrix = plot_confusion_matrix(
+        clf, X_best_test, y_best_test, matrix_name)
+    print("Confusion matrix for the best K-fold validated training set:\n{}".format(confusion_matrix))
 
     k_fold_data_log_loss.run(clf, test_bunch)
-
     return

@@ -23,6 +23,7 @@ def load_data(X_path, y_path):
 
   text_file = open(X_path, 'r')
   lines = text_file.read().split('\n')
+  # Delete last empty row (-1):
   del lines[-1]
   for line in lines:
     row_of_data = line.split(',')
@@ -34,6 +35,7 @@ def load_data(X_path, y_path):
   if y_path != 0:
     text_file = open(y_path, 'r')
     lines = text_file.read().split('\n')
+    # Delete last empty row (-1):
     del lines[-1]
     for value in lines:
       labels_list.append(int(value))
