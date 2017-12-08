@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def run(df, thresh=0.9):
+def run(df, thresh=0.8):
     """
     Given a numeric pd.DataFrame, this will find highly correlated features,
     and return a list of features to remove and the count of collums
@@ -13,7 +13,7 @@ def run(df, thresh=0.9):
               a correlation greater than this value
     Returns
     -------
-    list : features to remove
+    set : features to remove
     int : count of collums
     """
     
@@ -32,6 +32,9 @@ def run(df, thresh=0.9):
 
     select_nested = [f[1:] for f in result]
     select_flat = [i for j in select_nested for i in j]
+    
+    select_flat = set(select_flat)
+
     if len(select_flat) > 0:
       print('Correlations found between features. {} out of {} features will be removed...'.format(
           len(select_flat), len(corrMatrix)))

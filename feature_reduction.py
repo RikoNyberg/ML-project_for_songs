@@ -1,7 +1,6 @@
 import find_correlation
 import pandas as pd
 
-
 def run(TRAINING_DATA):
     """
     Given a path to the training data CSV file, this will find highly correlated features
@@ -20,8 +19,10 @@ def run(TRAINING_DATA):
     df = pd.read_csv(TRAINING_DATA, header=None)
     columns_to_take_away, count_of_orig_columns = find_correlation.run(df)
 
-    columns = list(range(count_of_orig_columns))
-    for i in sorted(columns_to_take_away, reverse=True):
-        del columns[i]
+    columns = set(range(count_of_orig_columns))
+    print('columns_to_take_away', columns_to_take_away)
+    print('columns', columns)
+
+    columns = columns - columns_to_take_away
 
     return columns, count_of_orig_columns
