@@ -17,11 +17,9 @@ def run(TRAINING_DATA):
 
     print('Feature reduction:\nChecking if there is any correlation between the features in the training data...')
     df = pd.read_csv(TRAINING_DATA, header=None)
-    columns_to_take_away, count_of_orig_columns = find_correlation.run(df)
 
+    columns_to_take_away, count_of_orig_columns = find_correlation.run(df)
     columns = set(range(count_of_orig_columns))
-    print('columns_to_take_away', columns_to_take_away)
-    print('columns', columns)
 
     columns = columns - columns_to_take_away
 

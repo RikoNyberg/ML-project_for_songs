@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 
-def run(df, thresh=0.8):
+
+def run(df, thresh=0.7):
     """
     Given a numeric pd.DataFrame, this will find highly correlated features,
     and return a list of features to remove and the count of collums
@@ -16,7 +17,7 @@ def run(df, thresh=0.8):
     set : features to remove
     int : count of collums
     """
-    
+
     corrMatrix = df.corr()
     corrMatrix.loc[:, :] = np.tril(corrMatrix, k=-1)
 

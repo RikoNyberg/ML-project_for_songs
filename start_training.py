@@ -2,6 +2,7 @@ import import_data
 import k_fold
 import log_loss_regression_for_data
 import feature_reduction
+import draw_correlation_heatmap
 
 import numpy as np
 import pandas as pd
@@ -22,10 +23,14 @@ def main():
     train_data_csv = TRAINING_DATA
     test_data_csv = TEST_DATA
 
+    # Correlation Heatmap for original data
+    data_name = 'original_data'
+    draw_correlation_heatmap.run(train_data_csv, data_name)
+
     # Feature reduction
     useful_features, count_of_orig_columns = feature_reduction.run(TRAINING_DATA)
     
-    if len(useful_features) > count_of_orig_columns:
+    if len(useful_features) < count_of_orig_columns:
         TRAIN_DATA_REDUCED = "data/train_data_reduced_features.csv"
         create_new_csv_with_useful_features(
             useful_features, TRAINING_DATA, TRAIN_DATA_REDUCED)
@@ -35,10 +40,16 @@ def main():
         create_new_csv_with_useful_features(
             useful_features, TEST_DATA, TEST_DATA_REDUCED)
         test_data_csv = TEST_DATA_REDUCED
+        print('...features removed.')
+
+        # Correlation Heatmap for reduced data
+        data_name = 'reduced_data'
+        draw_correlation_heatmap.run(train_data_csv, data_name)
     
+
     training_set = import_data.run(train_data_csv, TRAINING_LABELS)
     test_set = import_data.run(test_data_csv, 0)
-    print('Data imported')
+    print('Data imported\n')
 
     print('Doing K-fold validation for the Logistic Regression model:')
     k_fold.run(training_set, test_set)

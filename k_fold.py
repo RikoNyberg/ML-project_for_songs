@@ -32,7 +32,7 @@ def plot_confusion_matrix(clf, X_best_test, y_best_test, matrix_name):
 
 def run(train_bunch, test_bunch):
     n_splits = 5
-    print('Running K-fold with {} splits...'.format(n_splits))
+    print('Running K-fold with {} splits...\n'.format(n_splits))
     X = train_bunch.data
     y = train_bunch.target
     kf = KFold(n_splits=n_splits, shuffle=True)
@@ -42,6 +42,7 @@ def run(train_bunch, test_bunch):
     best_accuracy = 0
     matrix_name = 1
     for train_index, test_index in kf.split(X):
+        print('Split {}:'.format(matrix_name))
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
