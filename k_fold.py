@@ -4,6 +4,7 @@ from sklearn.model_selection import KFold
 import pandas as pd
 from pandas_ml import ConfusionMatrix
 import matplotlib.pyplot as plt
+from sklearn import datasets
 
 # TODO: Documentation on what is done
 
@@ -30,10 +31,11 @@ def plot_confusion_matrix(clf, X_best_test, y_best_test, matrix_name):
     return confusion_matrix
 
 def run(train_bunch, test_bunch):
-    print('Running K-fold...')
+    n_splits = 5
+    print('Running K-fold with {} splits...'.format(n_splits))
     X = train_bunch.data
     y = train_bunch.target
-    kf = KFold(n_splits=5, shuffle=True)
+    kf = KFold(n_splits=n_splits, shuffle=True)
     kf.get_n_splits(X)
 
     csv_file = []
@@ -43,10 +45,10 @@ def run(train_bunch, test_bunch):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-        clf = linear_model.LogisticRegression()
+        clf = linear_model.LogisticRegression(penalty='l1', C=0.5)
         clf.fit(X_train, y_train)
-
         y_pred = clf.predict(X_test)
+
         wrong_labels = len(y_test) - \
             len([i for i, j in zip(y_test, y_pred) if i == j])
         test_accuracity = (len(y_test) - wrong_labels) / len(y_test)
@@ -67,24 +69,23 @@ def run(train_bunch, test_bunch):
         plot_confusion_matrix(clf, X_test, y_test, matrix_name)
         matrix_name += 1 
         if best_accuracy < test_accuracity:
+            clf_best = clf
             best_accuracy = test_accuracity
             X_best_train, X_best_test = X[train_index], X[test_index]
             y_best_train, y_best_test = y[train_index], y[test_index]
-        
 
     save_k_fold_results_to_CSV(csv_file)
 
     # Doing the classification with the best k-fold data
     print('Best test accuracity if {} with train dataset of {} datapoint'.format(
         best_accuracy, len(y_best_train)))
-
-    print('Calculating the classifier with the best K-fold validated training set...')
-    clf = linear_model.LogisticRegression()
-    clf.fit(X_best_train, y_best_train)
     matrix_name = 'best_accuracity_({})'.format(best_accuracy)
     confusion_matrix = plot_confusion_matrix(
-        clf, X_best_test, y_best_test, matrix_name)
+        clf_best, X_best_test, y_best_test, matrix_name)
     print("Confusion matrix for the best K-fold validated training set:\n{}".format(confusion_matrix))
-
-    k_fold_data_log_loss.run(clf, test_bunch)
+    
+    best_train_bunch = datasets.base.Bunch(
+        data=X_best_train, target=y_best_train)
+    
+    k_fold_data_log_loss.run(best_train_bunch, test_bunch)
     return
