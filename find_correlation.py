@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def run(df, thresh=0.7):
+def run(df, thresh=0.8):
     """
     Given a numeric pd.DataFrame, this will find highly correlated features,
     and return a list of features to remove and the count of collums
@@ -37,8 +37,9 @@ def run(df, thresh=0.7):
     select_flat = set(select_flat)
 
     if len(select_flat) > 0:
-      print('Correlations found between features. {} out of {} features will be removed...'.format(
-          len(select_flat), len(corrMatrix)))
+      print('Correlations found between features with correlation threshols {}. {} out of {} features will be removed...'.format(
+          thresh, len(select_flat), len(corrMatrix)))
     else:
-      print('No correlations found. All {} features are used in the classification...'.format(len(corrMatrix)))
+      print('No correlations found with correlation threshols {}. All {} features are used in the training...'.format(
+          thresh, len(corrMatrix)))
     return select_flat, len(corrMatrix)
